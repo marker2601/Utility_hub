@@ -1,0 +1,119 @@
+{
+  "info": {
+    "name": "Utility Hub MVP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Core endpoint collection for Utility Hub SaaS MVP"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000" },
+    { "key": "api_key", "value": "" },
+    { "key": "service_role_key", "value": "" },
+    { "key": "job_id", "value": "" },
+    { "key": "file_id", "value": "" },
+    { "key": "result_file_id", "value": "" },
+    { "key": "api_key_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Upload File",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "x-api-key", "value": "{{api_key}}" }],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "file", "type": "file", "src": "" }
+          ]
+        },
+        "url": "{{base_url}}/v1/files/upload"
+      }
+    },
+    {
+      "name": "Create Job",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "x-api-key", "value": "{{api_key}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"app_id\": \"csv_profiler\",\n  \"input_file_id\": \"{{file_id}}\",\n  \"options\": {\n    \"removeDuplicateRows\": true\n  }\n}"
+        },
+        "url": "{{base_url}}/v1/jobs"
+      }
+    },
+    {
+      "name": "Get Job",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "x-api-key", "value": "{{api_key}}" }],
+        "url": "{{base_url}}/v1/jobs/{{job_id}}"
+      }
+    },
+    {
+      "name": "Download Result File",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "x-api-key", "value": "{{api_key}}" }],
+        "url": "{{base_url}}/v1/files/{{result_file_id}}/download"
+      }
+    },
+    {
+      "name": "List API Keys",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/api-keys"
+      }
+    },
+    {
+      "name": "Create API Key",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"automation\",\n  \"rate_limit_per_minute\": 120\n}"
+        },
+        "url": "{{base_url}}/v1/api-keys"
+      }
+    },
+    {
+      "name": "Revoke API Key",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/v1/api-keys/{{api_key_id}}/revoke"
+      }
+    },
+    {
+      "name": "AI Explain",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "x-api-key", "value": "{{api_key}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"profile_report\": {\n    \"summary\": {\n      \"rowCount\": 100\n    }\n  }\n}"
+        },
+        "url": "{{base_url}}/v1/ai/explain"
+      }
+    },
+    {
+      "name": "Run Internal Jobs",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "x-service-role-key", "value": "{{service_role_key}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"limit\": 1\n}"
+        },
+        "url": "{{base_url}}/v1/internal/jobs/run"
+      }
+    }
+  ]
+}

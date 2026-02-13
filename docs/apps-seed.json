@@ -1,0 +1,28 @@
+[
+  {
+    "id": "csv_profiler",
+    "name": "CSV Profiler",
+    "slug": "csv-profiler",
+    "description": "Profiles CSV/XLSX files, generates quality report JSON, and emits a cleaned CSV output.",
+    "inputs": [
+      {
+        "name": "file",
+        "type": "file",
+        "required": true,
+        "acceptedMimeTypes": [
+          "text/csv",
+          "application/vnd.ms-excel",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "name": "removeDuplicateRows",
+        "type": "boolean",
+        "default": false,
+        "description": "Remove duplicate rows after normalization"
+      }
+    ]
+  }
+]
